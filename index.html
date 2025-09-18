@@ -5,6 +5,7 @@ import { Label } from "/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "/components/ui/radio-group";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "/components/ui/card";
 import { Checkbox } from "/components/ui/checkbox";
+
 export default function ClientRetentionForm() {
   const [formData, setFormData] = useState({
     cuit: '',
@@ -23,6 +24,7 @@ export default function ClientRetentionForm() {
     comprobanteCuit: null as File | null,
     comprobantes: null as File | null,
   });
+
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value, type, checked, files } = e.target;
     if (type === 'file') {
@@ -37,12 +39,14 @@ export default function ClientRetentionForm() {
       }));
     }
   };
+    
   const handleRadioChange = (value: string) => {
     setFormData(prev => ({
       ...prev,
       tipoResponsable: value
     }));
   };
+    
   const handleCheckboxChange = (type: 'arca' | 'iibb', value: string, checked: boolean) => {
     setFormData(prev => {
       const currentArray = type === 'arca' ? prev.retencionesArca : prev.retencionesIIBB;
@@ -56,6 +60,7 @@ export default function ClientRetentionForm() {
       };
     });
   };
+    
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     console.log('Datos del formulario:', formData);
@@ -223,6 +228,22 @@ export default function ClientRetentionForm() {
               <div className="space-y-4">
                 <h3 className="text-lg font-semibold text-foreground">Situación Impositiva</h3>
 
+                     {/* Subtítulo y campo para adjuntar comprobantes debajo de Situación Impositiva */}
+              <div className="space-y-4">
+                <h4 className="text-md font-semibold">En caso de selección alguna deberá adjuntar dicho comprobante</h4>
+                <div className="space-y-2">
+                  <Label htmlFor="comprobantes">Comprobantes</Label>
+                  <Input
+                    id="comprobantes"
+                    name="comprobantes"
+                    type="file"
+                    accept=".pdf,.jpg,.jpeg,.png"
+                    onChange={handleInputChange}
+                    multiple={false}
+                  />
+                </div>
+              </div>
+
                 <div className="space-y-3">
                   <Label>Categoria Contribuyente *</Label>
                   <RadioGroup 
@@ -255,22 +276,6 @@ export default function ClientRetentionForm() {
                       <Label htmlFor="responsable-monotributo" className="cursor-pointer">Responsable Monotributo</Label>
                     </div>
                   </RadioGroup>
-                </div>
-              </div>
-
-              {/* Subtítulo y campo para adjuntar comprobantes debajo de Situación Impositiva */}
-              <div className="space-y-4">
-                <h4 className="text-md font-semibold">En caso de selección alguna deberá adjuntar dicho comprobante</h4>
-                <div className="space-y-2">
-                  <Label htmlFor="comprobantes">Comprobantes</Label>
-                  <Input
-                    id="comprobantes"
-                    name="comprobantes"
-                    type="file"
-                    accept=".pdf,.jpg,.jpeg,.png"
-                    onChange={handleInputChange}
-                    multiple={false}
-                  />
                 </div>
               </div>
               
